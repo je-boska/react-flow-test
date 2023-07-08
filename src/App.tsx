@@ -1,5 +1,14 @@
 import { useCallback } from 'react';
-import ReactFlow, { addEdge, useEdgesState, useNodesState } from 'reactflow';
+import ReactFlow, {
+  Background,
+  Connection,
+  Controls,
+  Edge,
+  MiniMap,
+  addEdge,
+  useEdgesState,
+  useNodesState,
+} from 'reactflow';
 import 'reactflow/dist/style.css';
 
 const initialNodes = [
@@ -14,7 +23,7 @@ function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
 
@@ -26,7 +35,11 @@ function App() {
         onConnect={onConnect}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-      />
+      >
+        <MiniMap />
+        <Controls />
+        <Background variant='dots' gap={12} size={1} />
+      </ReactFlow>
     </div>
   );
 }
