@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import ReactFlow, {
   Background,
+  BackgroundVariant,
   Connection,
   Controls,
   Edge,
@@ -38,7 +39,7 @@ function App() {
       >
         <MiniMap />
         <Controls />
-        <Background variant='dots' gap={12} size={1} />
+        <Background variant={BackgroundVariant.Lines} gap={12} size={1} />
       </ReactFlow>
     </div>
   );
