@@ -1,11 +1,10 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
   Background,
   BackgroundVariant,
   Connection,
   Controls,
   Edge,
-  Handle,
   MiniMap,
   Position,
   addEdge,
@@ -13,32 +12,43 @@ import ReactFlow, {
   useNodesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-
-const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 20, y: 100 }, data: { label: '2' } },
-  {
-    id: '3',
-    position: { x: 40, y: 200 },
-    data: { label: '3' },
-    type: 'test',
-  },
-];
-
-function testNode() {
-  return (
-    <>
-      <Handle type='target' position={Position.Left} />
-      <p>Test</p>
-    </>
-  );
-}
+import OscillatorNode from './Components/OscillatorNode';
 
 function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
-  const nodeTypes = useMemo(() => ({ test: testNode }), []);
+  useEffect(() => {
+    setNodes([
+      {
+        id: '1',
+        type: 'input',
+        position: { x: 0, y: 500 },
+        data: { label: 'Audio In' },
+        sourcePosition: Position.Right,
+      },
+      {
+        id: '2',
+        type: 'output',
+        position: { x: 700, y: 500 },
+        data: { label: 'Audio Out' },
+        targetPosition: Position.Left,
+      },
+      {
+        id: '3',
+        position: { x: 300, y: 200 },
+        data: {
+          label: '3',
+          title: 'This is a title',
+          audioContext: audioContext,
+        },
+        type: 'oscillator',
+      },
+    ]);
+  }, [audioContext]);
+
+  const nodeTypes = useMemo(() => ({ oscillator: OscillatorNode }), []);
 
   const onConnect = useCallback(
     (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -47,6 +57,9 @@ function App() {
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
+      <button onClick={() => setAudioContext(new AudioContext())}>
+        Create Audio Context
+      </button>
       <ReactFlow
         nodes={nodes}
         edges={edges}
