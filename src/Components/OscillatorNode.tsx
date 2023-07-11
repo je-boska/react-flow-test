@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
 interface OscillatorNodeProps {
@@ -13,6 +13,7 @@ export default function OscillatorNode({ data }: OscillatorNodeProps) {
   const { audioContext } = data;
 
   const [osc, setOsc] = useState<OscillatorNode | null>(null);
+  const [freq, setFreq] = useState<number>(1000);
 
   useEffect(() => {
     if (audioContext) {
@@ -20,14 +21,27 @@ export default function OscillatorNode({ data }: OscillatorNodeProps) {
     }
   }, [audioContext]);
 
+  useEffect(() => {
+    if (audioContext && osc) {
+      osc.frequency.value = freq;
+    }
+  }, [freq, audioContext, osc]);
+
   return (
     <>
       {osc ? (
         <>
-          <Handle type='target' position={Position.Left} isConnectable />
-          <p>{data.title}</p>
+          <p className='drag-handle'>{data.title}</p>
+          <input
+            type='range'
+            value={freq}
+            onChange={(e) => setFreq(Number(e.target.value))}
+            min={100}
+            max={2000}
+          />
 
           <Handle
+            id='Osc out'
             type='source'
             position={Position.Right}
             onConnect={() => {

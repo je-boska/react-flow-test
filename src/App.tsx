@@ -38,20 +38,24 @@ function App() {
       {
         id: '3',
         position: { x: 300, y: 200 },
+        dragHandle: '.drag-handle',
         data: {
           label: '3',
-          title: 'This is a title',
+          title: 'Oscillator',
           audioContext: audioContext,
         },
         type: 'oscillator',
       },
     ]);
-  }, [audioContext]);
+  }, [audioContext, setNodes]);
 
   const nodeTypes = useMemo(() => ({ oscillator: OscillatorNode }), []);
 
   const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+    (params: Edge | Connection) => {
+      console.log(params);
+      setEdges((eds) => addEdge(params, eds));
+    },
     [setEdges]
   );
 
