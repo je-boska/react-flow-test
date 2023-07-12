@@ -32,7 +32,7 @@ function App() {
         id: '2',
         type: 'output',
         position: { x: 700, y: 500 },
-        data: { label: 'Audio Out' },
+        data: { label: 'Audio Out', input: 1 },
         targetPosition: Position.Left,
       },
       {
@@ -43,6 +43,7 @@ function App() {
           label: '3',
           title: 'Oscillator',
           audioContext: audioContext,
+          output: null,
         },
         type: 'oscillator',
       },
@@ -55,8 +56,22 @@ function App() {
     (params: Edge | Connection) => {
       console.log(params);
       setEdges((eds) => addEdge(params, eds));
+      const newNodes = nodes.map((node) => {
+        if (node.id !== params.source) {
+          return node;
+        }
+        const targetNode = nodes.find((n) => n.id === params.target);
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            output: targetNode.data.input,
+          },
+        };
+      });
+      setNodes(newNodes);
     },
-    [setEdges]
+    [setEdges, setNodes, nodes]
   );
 
   return (

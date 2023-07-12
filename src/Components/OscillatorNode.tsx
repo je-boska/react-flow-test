@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
 interface OscillatorNodeProps {
@@ -6,6 +6,7 @@ interface OscillatorNodeProps {
     label: string;
     title: string;
     audioContext: AudioContext;
+    output: number;
   };
 }
 
@@ -32,6 +33,9 @@ export default function OscillatorNode({ data }: OscillatorNodeProps) {
       {osc ? (
         <>
           <p className='drag-handle'>{data.title}</p>
+          <p className='drag-handle'>
+            {data.output ? 'Output: ' + String(data.output) : 'Not connected'}
+          </p>
           <input
             type='range'
             value={freq}
