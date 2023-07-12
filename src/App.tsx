@@ -6,41 +6,45 @@ import ReactFlow, {
   Controls,
   Edge,
   MiniMap,
-  Position,
   addEdge,
   useEdgesState,
   useNodesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import OscillatorNode from './Components/OscillatorNode';
+import Oscillator from './Components/Oscillator';
+import AudioOut from './Components/AudioOut';
+
+export type AudioNodeData = {
+  title: string;
+  audioContext?: AudioContext;
+  input?: number | null;
+  output?: number | null;
+};
 
 function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<AudioNodeData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [audioContext, setAudioContext] = useState<AudioContext | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     setNodes([
       {
         id: '1',
-        type: 'input',
-        position: { x: 0, y: 500 },
-        data: { label: 'Audio In' },
-        sourcePosition: Position.Right,
+        type: 'audioOut',
+        position: { x: 700, y: 500 },
+        data: {
+          title: 'Audio Out',
+          audioContext: audioContext,
+          input: 1,
+        },
       },
       {
         id: '2',
-        type: 'output',
-        position: { x: 700, y: 500 },
-        data: { label: 'Audio Out', input: 1 },
-        targetPosition: Position.Left,
-      },
-      {
-        id: '3',
         position: { x: 300, y: 200 },
         dragHandle: '.drag-handle',
         data: {
-          label: '3',
           title: 'Oscillator',
           audioContext: audioContext,
           output: null,
@@ -50,22 +54,28 @@ function App() {
     ]);
   }, [audioContext, setNodes]);
 
-  const nodeTypes = useMemo(() => ({ oscillator: OscillatorNode }), []);
+  const nodeTypes = useMemo(
+    () => ({ oscillator: Oscillator, audioOut: AudioOut }),
+    []
+  );
 
   const onConnect = useCallback(
     (params: Edge | Connection) => {
       console.log(params);
       setEdges((eds) => addEdge(params, eds));
       const newNodes = nodes.map((node) => {
+        // Nodes other than the one connected from remain unchanged
         if (node.id !== params.source) {
           return node;
         }
+
+        // Find target node and assign its input as output on source node
         const targetNode = nodes.find((n) => n.id === params.target);
         return {
           ...node,
           data: {
             ...node.data,
-            output: targetNode.data.input,
+            output: targetNode?.data.input,
           },
         };
       });
