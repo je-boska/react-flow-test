@@ -21,6 +21,7 @@ export type RFState = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+  updateNode: (id: string, data: AudioNodeData) => void;
 };
 
 const useStore = create<RFState>((set, get) => ({
@@ -64,7 +65,7 @@ const useStore = create<RFState>((set, get) => ({
   updateNode(id: string, data: AudioNodeData) {
     updateAudioNode(id, data);
     set({
-      nodes: get().nodes.map((node) => {
+      nodes: get().nodes.map((node: Node<AudioNodeData>) => {
         if (node.id === id) {
           return { ...node, data: Object.assign(node.data, data) };
         }

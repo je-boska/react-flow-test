@@ -1,4 +1,4 @@
 export type AudioNodeData = {
-  title: string;
+  title?: string;
   freq?: number;
 };

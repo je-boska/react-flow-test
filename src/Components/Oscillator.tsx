@@ -4,8 +4,8 @@ import { shallow } from 'zustand/shallow';
 import useStore, { RFState } from '../store';
 
 const selector = (id: string) => (store: RFState) => ({
-  setFreq: (e: React.FormEvent<HTMLInputElement>) =>
-    store.updateNode(id, { freq: e.target.value }),
+  setFreq: (e: React.ChangeEvent<HTMLInputElement>) =>
+    store.updateNode(id, { freq: Number(e.target.value) }),
 });
 
 export default function Oscillator({ id, data }: NodeProps<AudioNodeData>) {

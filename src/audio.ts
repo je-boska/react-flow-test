@@ -18,7 +18,7 @@ export function connectNodes(source: AudioNode, target: AudioNode) {
 
 export function updateAudioNode(id: string, data: AudioNodeData) {
   const node = nodes.get(id);
-
+  if (!node) return;
   for (const [key, val] of Object.entries(data)) {
     if (node[key] instanceof AudioParam) {
       node[key].value = val;
