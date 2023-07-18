@@ -11,11 +11,6 @@ import AudioOut from './Components/AudioOut';
 import useStore, { RFState } from './store';
 import { shallow } from 'zustand/shallow';
 
-export type AudioNodeData = {
-  title: string;
-  freq?: number;
-};
-
 const selector = (state: RFState) => ({
   nodes: state.nodes,
   edges: state.edges,

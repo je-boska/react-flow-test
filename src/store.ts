@@ -12,6 +12,8 @@ import {
   applyNodeChanges,
 } from 'reactflow';
 import { create } from 'zustand';
+import { updateAudioNode } from './audio';
+import { AudioNodeData } from './types';
 
 export type RFState = {
   nodes: Node[];
@@ -24,7 +26,7 @@ export type RFState = {
 const useStore = create<RFState>((set, get) => ({
   nodes: [
     {
-      id: '1',
+      id: 'out',
       type: 'audioOut',
       position: { x: 700, y: 500 },
       data: {
@@ -32,7 +34,7 @@ const useStore = create<RFState>((set, get) => ({
       },
     },
     {
-      id: '2',
+      id: 'osc',
       position: { x: 300, y: 200 },
       dragHandle: '.drag-handle',
       data: {
@@ -56,6 +58,19 @@ const useStore = create<RFState>((set, get) => ({
   onConnect: (connection: Connection) => {
     set({
       edges: addEdge(connection, get().edges),
+    });
+  },
+
+  updateNode(id: string, data: AudioNodeData) {
+    updateAudioNode(id, data);
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === id) {
+          return { ...node, data: Object.assign(node.data, data) };
+        }
+
+        return node;
+      }),
     });
   },
 }));

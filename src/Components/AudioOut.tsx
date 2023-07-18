@@ -1,5 +1,5 @@
 import { Handle, NodeProps, Position } from 'reactflow';
-import { AudioNodeData } from '../App';
+import { AudioNodeData } from '../types';
 
 export default function AudioOut({ data }: NodeProps<AudioNodeData>) {
   return (

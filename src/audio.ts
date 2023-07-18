@@ -1,3 +1,5 @@
+import { AudioNodeData } from './types';
+
 const audioContext = new AudioContext();
 
 type AudioNodeMap = Map<string, AudioNode>;
@@ -8,12 +10,20 @@ const osc = audioContext.createOscillator();
 osc.frequency.value = 440;
 osc.start();
 
-nodes.set('oscillator', osc);
+nodes.set('osc', osc);
 
 export function connectNodes(source: AudioNode, target: AudioNode) {
   source.connect(target);
 }
 
-export function updateAudioNode(id) {
-  return;
+export function updateAudioNode(id: string, data: AudioNodeData) {
+  const node = nodes.get(id);
+
+  for (const [key, val] of Object.entries(data)) {
+    if (node[key] instanceof AudioParam) {
+      node[key].value = val;
+    } else {
+      node[key] = val;
+    }
+  }
 }
