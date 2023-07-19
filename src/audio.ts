@@ -11,9 +11,21 @@ osc.frequency.value = 440;
 osc.start();
 
 nodes.set('osc', osc);
+nodes.set('out', audioContext.destination);
 
-export function connectNodes(source: AudioNode, target: AudioNode) {
-  source.connect(target);
+export function isRunning() {
+  return audioContext.state === 'running';
+}
+
+export function toggleAudioContext() {
+  return isRunning() ? audioContext.suspend() : audioContext.resume();
+}
+
+export function connectNodes(source: string, target: string) {
+  const sourceNode = nodes.get(source);
+  const targetNode = nodes.get(target);
+  if (!sourceNode || !targetNode) return;
+  sourceNode?.connect(targetNode);
 }
 
 export function updateAudioNode(id: string, data: AudioNodeData) {

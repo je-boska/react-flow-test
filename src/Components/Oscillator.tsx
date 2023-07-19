@@ -1,7 +1,7 @@
 import { Handle, NodeProps, Position } from 'reactflow';
-import { AudioNodeData } from '../types';
+import { AudioNodeData, RFState } from '../types';
 import { shallow } from 'zustand/shallow';
-import useStore, { RFState } from '../store';
+import useStore from '../store';
 
 const selector = (id: string) => (store: RFState) => ({
   setFrequency: (e: React.ChangeEvent<HTMLInputElement>) =>

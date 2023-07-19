@@ -8,8 +8,9 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import Oscillator from './Components/Oscillator';
 import AudioOut from './Components/AudioOut';
-import useStore, { RFState } from './store';
+import useStore from './store';
 import { shallow } from 'zustand/shallow';
+import { RFState } from './types';
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,

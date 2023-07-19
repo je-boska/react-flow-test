@@ -1,28 +1,20 @@
 import {
   Connection,
-  Edge,
   EdgeChange,
   Node,
   NodeChange,
-  OnConnect,
-  OnEdgesChange,
-  OnNodesChange,
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
 } from 'reactflow';
 import { create } from 'zustand';
-import { updateAudioNode } from './audio';
-import { AudioNodeData } from './types';
-
-export type RFState = {
-  nodes: Node[];
-  edges: Edge[];
-  onNodesChange: OnNodesChange;
-  onEdgesChange: OnEdgesChange;
-  onConnect: OnConnect;
-  updateNode: (id: string, data: AudioNodeData) => void;
-};
+import {
+  connectNodes,
+  isRunning,
+  toggleAudioContext,
+  updateAudioNode,
+} from './audio';
+import { AudioNodeData, RFState } from './types';
 
 const useStore = create<RFState>((set, get) => ({
   nodes: [
@@ -46,6 +38,16 @@ const useStore = create<RFState>((set, get) => ({
     },
   ],
   edges: [],
+  isRunning: isRunning(),
+  toggleAudio() {
+    toggleAudioContext()
+      .then(() => {
+        set({ isRunning: isRunning() });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -57,6 +59,8 @@ const useStore = create<RFState>((set, get) => ({
     });
   },
   onConnect: (connection: Connection) => {
+    if (!connection.source || !connection.target) return;
+    connectNodes(connection.source, connection.target);
     set({
       edges: addEdge(connection, get().edges),
     });
