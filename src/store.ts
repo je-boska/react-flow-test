@@ -40,7 +40,7 @@ const useStore = create<RFState>((set, get) => ({
       dragHandle: '.drag-handle',
       data: {
         title: 'Oscillator',
-        freq: 440,
+        frequency: 440,
       },
       type: 'oscillator',
     },

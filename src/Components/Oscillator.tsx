@@ -4,12 +4,12 @@ import { shallow } from 'zustand/shallow';
 import useStore, { RFState } from '../store';
 
 const selector = (id: string) => (store: RFState) => ({
-  setFreq: (e: React.ChangeEvent<HTMLInputElement>) =>
-    store.updateNode(id, { freq: Number(e.target.value) }),
+  setFrequency: (e: React.ChangeEvent<HTMLInputElement>) =>
+    store.updateNode(id, { frequency: Number(e.target.value) }),
 });
 
 export default function Oscillator({ id, data }: NodeProps<AudioNodeData>) {
-  const { setFreq } = useStore(selector(id), shallow);
+  const { setFrequency } = useStore(selector(id), shallow);
 
   return (
     <>
@@ -17,8 +17,8 @@ export default function Oscillator({ id, data }: NodeProps<AudioNodeData>) {
 
       <input
         type='range'
-        value={data.freq}
-        onChange={setFreq}
+        value={data.frequency}
+        onChange={setFrequency}
         min={100}
         max={2000}
       />

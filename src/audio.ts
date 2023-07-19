@@ -20,10 +20,10 @@ export function updateAudioNode(id: string, data: AudioNodeData) {
   const node = nodes.get(id);
   if (!node) return;
   for (const [key, val] of Object.entries(data)) {
-    if (node[key] instanceof AudioParam) {
-      node[key].value = val;
+    if (node[key as keyof AudioNode] instanceof AudioParam) {
+      node[key as keyof AudioNode].value = val;
     } else {
-      node[key] = val;
+      node[key as keyof AudioNode] = val;
     }
   }
 }
