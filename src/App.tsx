@@ -18,13 +18,18 @@ const selector = (state: RFState) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  onEdgesDelete: state.onEdgesDelete,
 });
 
 function App() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(
-    selector,
-    shallow
-  );
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onEdgesDelete,
+  } = useStore(selector, shallow);
 
   const nodeTypes = useMemo(
     () => ({ oscillator: Oscillator, audioOut: AudioOut }),
@@ -37,6 +42,7 @@ function App() {
         nodes={nodes}
         edges={edges}
         onConnect={onConnect}
+        onEdgesDelete={onEdgesDelete}
         nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}

@@ -1,4 +1,11 @@
-import { Edge, Node, OnConnect, OnEdgesChange, OnNodesChange } from 'reactflow';
+import {
+  Edge,
+  Node,
+  OnConnect,
+  OnEdgesChange,
+  OnEdgesDelete,
+  OnNodesChange,
+} from 'reactflow';
 
 export type AudioNodeData = {
   title?: string;
@@ -11,6 +18,7 @@ export type RFState = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+  onEdgesDelete: OnEdgesDelete;
   updateNode: (id: string, data: AudioNodeData) => void;
   isRunning: boolean;
   toggleAudio: () => void;

@@ -10,6 +10,7 @@ import {
 import { create } from 'zustand';
 import {
   connectNodes,
+  disconnectNodes,
   isRunning,
   toggleAudioContext,
   updateAudioNode,
@@ -38,7 +39,9 @@ const useStore = create<RFState>((set, get) => ({
     },
   ],
   edges: [],
+
   isRunning: isRunning(),
+
   toggleAudio() {
     toggleAudioContext()
       .then(() => {
@@ -48,21 +51,30 @@ const useStore = create<RFState>((set, get) => ({
         console.log(err);
       });
   },
+
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
     });
   },
+
   onEdgesChange: (changes: EdgeChange[]) => {
     set({
       edges: applyEdgeChanges(changes, get().edges),
     });
   },
+
   onConnect: (connection: Connection) => {
     if (!connection.source || !connection.target) return;
     connectNodes(connection.source, connection.target);
     set({
       edges: addEdge(connection, get().edges),
+    });
+  },
+
+  onEdgesDelete: (deleted) => {
+    deleted.forEach((edge) => {
+      disconnectNodes(edge.source, edge.target);
     });
   },
 

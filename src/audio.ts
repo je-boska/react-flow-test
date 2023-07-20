@@ -25,7 +25,14 @@ export function connectNodes(source: string, target: string) {
   const sourceNode = nodes.get(source);
   const targetNode = nodes.get(target);
   if (!sourceNode || !targetNode) return;
-  sourceNode?.connect(targetNode);
+  sourceNode.connect(targetNode);
+}
+
+export function disconnectNodes(source: string, target: string) {
+  const sourceNode = nodes.get(source);
+  const targetNode = nodes.get(target);
+  if (!sourceNode || !targetNode) return;
+  sourceNode.disconnect(targetNode);
 }
 
 export function updateAudioNode(id: string, data: AudioNodeData) {
