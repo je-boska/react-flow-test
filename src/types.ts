@@ -12,6 +12,8 @@ export type AudioNodeData = {
   frequency?: number;
 };
 
+export type NodeType = 'oscillator' | 'filter';
+
 export type RFState = {
   nodes: Node[];
   edges: Edge[];
@@ -20,6 +22,7 @@ export type RFState = {
   onConnect: OnConnect;
   onEdgesDelete: OnEdgesDelete;
   updateNode: (id: string, data: AudioNodeData) => void;
+  addNode: (type: NodeType, data: AudioNodeData) => void;
   isRunning: boolean;
   toggleAudio: () => void;
 };

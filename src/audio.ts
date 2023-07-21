@@ -1,4 +1,4 @@
-import { AudioNodeData } from './types';
+import { AudioNodeData, NodeType } from './types';
 
 const audioContext = new AudioContext();
 
@@ -43,6 +43,24 @@ export function updateAudioNode(id: string, data: AudioNodeData) {
       node[key as keyof AudioNode].value = val;
     } else {
       node[key as keyof AudioNode] = val;
+    }
+  }
+}
+
+export function createNode(id: string, type: NodeType, data: AudioNodeData) {
+  switch (type) {
+    case 'oscillator': {
+      const osc = audioContext.createOscillator();
+      osc.frequency.value = data.frequency ? data.frequency : 440;
+      osc.start();
+      nodes.set(id, osc);
+      break;
+    }
+    case 'filter': {
+      const filter = audioContext.createBiquadFilter();
+      filter.frequency.value = data.frequency ? data.frequency : 1000;
+      nodes.set(id, filter);
+      break;
     }
   }
 }

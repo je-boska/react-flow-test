@@ -10,12 +10,14 @@ import {
 import { create } from 'zustand';
 import {
   connectNodes,
+  createNode,
   disconnectNodes,
   isRunning,
   toggleAudioContext,
   updateAudioNode,
 } from './audio';
-import { AudioNodeData, RFState } from './types';
+import { AudioNodeData, NodeType, RFState } from './types';
+import { nanoid } from 'nanoid';
 
 const useStore = create<RFState>((set, get) => ({
   nodes: [
@@ -29,13 +31,13 @@ const useStore = create<RFState>((set, get) => ({
     },
     {
       id: 'osc',
+      type: 'oscillator',
       position: { x: 300, y: 200 },
-      dragHandle: '.drag-handle',
       data: {
         title: 'Oscillator',
         frequency: 440,
       },
-      type: 'oscillator',
+      dragHandle: '.drag-handle',
     },
   ],
   edges: [],
@@ -89,6 +91,52 @@ const useStore = create<RFState>((set, get) => ({
         return node;
       }),
     });
+  },
+
+  addNode(type: NodeType, data: AudioNodeData) {
+    const id = nanoid(4);
+    const position = { x: 200, y: 100 };
+    createNode(id, type, data);
+
+    switch (type) {
+      case 'oscillator': {
+        set({
+          nodes: [
+            ...get().nodes,
+            {
+              id,
+              type,
+              position,
+              data: {
+                title: data.title,
+                frequency: data.frequency ? data.frequency : 440,
+              },
+              dragHandle: '.drag-handle',
+            },
+          ],
+        });
+        break;
+      }
+      case 'filter': {
+        set({
+          nodes: [
+            ...get().nodes,
+            {
+              id,
+              type,
+              position,
+              data: {
+                title: data.title,
+                frequency: data.frequency ? data.frequency : 1000,
+              },
+              dragHandle: '.drag-handle',
+            },
+          ],
+        });
+        break;
+      }
+    }
+    console.log(get().nodes);
   },
 }));
 
