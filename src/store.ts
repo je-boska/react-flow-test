@@ -136,7 +136,6 @@ const useStore = create<RFState>((set, get) => ({
         break;
       }
     }
-    console.log(get().nodes);
   },
 }));
 
