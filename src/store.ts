@@ -135,6 +135,24 @@ const useStore = create<RFState>((set, get) => ({
         });
         break;
       }
+      case 'gain': {
+        set({
+          nodes: [
+            ...get().nodes,
+            {
+              id,
+              type,
+              position,
+              data: {
+                title: data.title,
+                gain: data.gain ? data.gain : 0.1,
+              },
+              dragHandle: '.drag-handle',
+            },
+          ],
+        });
+        break;
+      }
     }
   },
 }));

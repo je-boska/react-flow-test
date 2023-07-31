@@ -10,9 +10,10 @@ import {
 export type AudioNodeData = {
   title?: string;
   frequency?: number;
+  gain?: number;
 };
 
-export type NodeType = 'oscillator' | 'filter';
+export type NodeType = 'oscillator' | 'filter' | 'gain';
 
 export type RFState = {
   nodes: Node[];

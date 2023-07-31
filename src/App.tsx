@@ -13,6 +13,7 @@ import useStore from './store';
 import { shallow } from 'zustand/shallow';
 import { RFState } from './types';
 import Filter from './Components/Filter';
+import Gain from './Components/Gain';
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -36,7 +37,12 @@ function App() {
   } = useStore(selector, shallow);
 
   const nodeTypes = useMemo(
-    () => ({ oscillator: Oscillator, filter: Filter, audioOut: AudioOut }),
+    () => ({
+      oscillator: Oscillator,
+      filter: Filter,
+      audioOut: AudioOut,
+      gain: Gain,
+    }),
     []
   );
 
@@ -68,6 +74,9 @@ function App() {
             }
           >
             Filter
+          </button>
+          <button onClick={() => addNode('gain', { title: 'Gain', gain: 0 })}>
+            Gain
           </button>
         </Panel>
       </ReactFlow>

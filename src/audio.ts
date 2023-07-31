@@ -62,5 +62,11 @@ export function createNode(id: string, type: NodeType, data: AudioNodeData) {
       nodes.set(id, filter);
       break;
     }
+    case 'gain': {
+      const gain = audioContext.createGain();
+      gain.gain.value = data.gain ? data.gain : 0.1;
+      nodes.set(id, gain);
+      break;
+    }
   }
 }
