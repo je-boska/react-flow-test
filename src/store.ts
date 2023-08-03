@@ -128,6 +128,7 @@ const useStore = create<RFState>((set, get) => ({
               data: {
                 title: data.title,
                 frequency: data.frequency ? data.frequency : 1000,
+                Q: data.Q ? data.Q : 1,
               },
               dragHandle: '.drag-handle',
             },

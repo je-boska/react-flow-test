@@ -52,6 +52,7 @@ export function createNode(id: string, type: NodeType, data: AudioNodeData) {
     case 'oscillator': {
       const osc = audioContext.createOscillator();
       osc.frequency.value = data.frequency ? data.frequency : 440;
+      osc.type = 'sawtooth';
       osc.start();
       nodes.set(id, osc);
       break;
@@ -59,6 +60,7 @@ export function createNode(id: string, type: NodeType, data: AudioNodeData) {
     case 'filter': {
       const filter = audioContext.createBiquadFilter();
       filter.frequency.value = data.frequency ? data.frequency : 1000;
+      filter.Q.value = data.Q ? data.Q : 1;
       nodes.set(id, filter);
       break;
     }

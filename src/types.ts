@@ -10,6 +10,7 @@ import {
 export type AudioNodeData = {
   title?: string;
   frequency?: number;
+  Q?: number;
   gain?: number;
 };
 
