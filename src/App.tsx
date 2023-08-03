@@ -62,6 +62,7 @@ function App() {
         <Background variant={BackgroundVariant.Lines} gap={12} size={1} />
         <Panel position='top-left'>
           <button
+            className='border border-black bg-white rounded-md p-2 m-2'
             onClick={() =>
               addNode('oscillator', { title: 'OSC', frequency: 220 })
             }
@@ -69,13 +70,17 @@ function App() {
             OSC
           </button>
           <button
+            className='border border-black bg-white rounded-md p-2 m-2'
             onClick={() =>
               addNode('filter', { title: 'Filter', frequency: 1000 })
             }
           >
             Filter
           </button>
-          <button onClick={() => addNode('gain', { title: 'Gain', gain: 0 })}>
+          <button
+            className='border border-black bg-white rounded-md p-2 m-2'
+            onClick={() => addNode('gain', { title: 'Gain', gain: 0 })}
+          >
             Gain
           </button>
         </Panel>

@@ -14,8 +14,13 @@ export default function AudioOut({ data }: NodeProps<AudioNodeData>) {
   return (
     <>
       <Handle id='Input' type='target' position={Position.Left} isConnectable />
-      <p className='drag-handle'>{data.title}</p>
-      <button onClick={toggleAudio}>{isRunning ? 'Pause' : 'Play'}</button>
+      <h2 className='drag-handle text-lg font-bold'>{data.title}</h2>
+      <button
+        className='border border-black bg-white rounded-md p-2 m-2 min-w-[60px]'
+        onClick={toggleAudio}
+      >
+        {isRunning ? 'Pause' : 'Play'}
+      </button>
     </>
   );
 }

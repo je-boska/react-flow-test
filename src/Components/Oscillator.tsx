@@ -13,7 +13,7 @@ export default function Oscillator({ id, data }: NodeProps<AudioNodeData>) {
 
   return (
     <>
-      <p className='drag-handle'>{data.title}</p>
+      <h2 className='drag-handle text-lg font-bold'>{data.title}</h2>
 
       <input
         type='range'

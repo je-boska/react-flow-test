@@ -15,27 +15,29 @@ export default function Filter({ id, data }: NodeProps<AudioNodeData>) {
 
   return (
     <>
-      <p className='drag-handle'>{data.title}</p>
+      <h2 className='drag-handle text-lg font-bold'>{data.title}</h2>
       <Handle id='Filter in' type='target' position={Position.Left} />
-      <label htmlFor='Frequency'>Frequency</label>
-      <input
-        type='range'
-        name='Frequency'
-        value={data.frequency}
-        onChange={setFrequency}
-        min={30}
-        max={20000}
-      />
-      <label htmlFor='Resonance'>Resonance</label>
-      <input
-        type='range'
-        name='resonance'
-        value={data.Q}
-        onChange={setQ}
-        min={0.0001}
-        max={50}
-        step='any'
-      />
+      <div className='grid'>
+        <label htmlFor='Frequency'>Frequency</label>
+        <input
+          type='range'
+          name='Frequency'
+          value={data.frequency}
+          onChange={setFrequency}
+          min={30}
+          max={20000}
+        />
+        <label htmlFor='Resonance'>Resonance</label>
+        <input
+          type='range'
+          name='resonance'
+          value={data.Q}
+          onChange={setQ}
+          min={0.0001}
+          max={50}
+          step='any'
+        />
+      </div>
 
       <Handle id='Filter out' type='source' position={Position.Right} />
     </>
